@@ -1,1 +1,8 @@
+1.	如果是同一文件夹下的话，试试 from . import xxx, xxx 是你要导入的自建模块。
+import xxx 是从 Python 系统库，或者项目的最外层导入 xxx。 from . import xxx 是
+从同一文件夹下导入 xxx。 from .yyy import xxx 是从当前目录的子文件夹 yyy 中导入 xxx。
 
+
+2.http://go.microsoft.com/fwlink/?LinkId=691126 安装Visual C++ Build Tools 2015 
+解决需要VC++14的问题。
+KeyError: 'Spider not found: dmoz'这个问题的解决办法为scrapy genspider dmoztools domztools.net
