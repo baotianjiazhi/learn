@@ -1,0 +1,92 @@
+连接数据库 mysql -u root -p
+创建数据库 create database test；
+删除数据库 drop database test；
+MySQL中表和列可以改名，datables不能rename 
+查看所有库 show databases;
+选库 use 数据库名
+查看库下面所有表 show tables;
+建表create table stu(
+		snum id int,
+		sname varchar(10)
+		)engine myisam charset utf8;//engine是指表引擎和性能
+删除表 drop table stu;
+修改表名 rename table stu to newstu;
+清空表 truncate newstu;
+truncate 和 delete的区别在于 truncate相当于删除表后再创建一个全新的表，而delete是从行删除所有行的
+层面来操作的
+查看表结构 desc class;
+
+#增
+	insert操作 往哪张表 添加行 class
+	添加哪几列 （id, sname, gender, company, salary, fanbu）
+	添加什么值 （1, "张三", "男", "百度", 8888.67, 334）
+	set names gbk;
+	insert into class
+	(id, sname, gender, company, salary, fanbu)
+	values
+	(1,'张三','f','百度',888.67,334)
+	如果不声明插入的列，即顺序插入
+
+#改
+	update操作 改哪张表 update class
+	改成什么 set gender = 'm'
+	改哪几行
+	update class
+	set gender = 'm',company = 'qiandu'
+	where id = 6(wher后跟的是表达式，不一定非要是id);
+
+#删
+	删除一行只能整个行一起删除,不能只删一列
+	delete from class where salary > 8800;
+	delete from class where gender = 'm'
+
+#查
+	#*代表所有列，表名后不加where条件，则选所有行
+	select * from class
+	select sname,company,salary from class where id=6;
+
+#建表
+	建表过程就是一个声明字段的过程
+	create table 
+	MySQL三大列类型
+
+	数值型
+	#增加列 alter table class01 add salary int(5) zerofill not null default 0;
+		整型
+			Tinyint
+				占据空间：1个字节，存储范围：-128-127，0-255
+				
+			Smallint
+			Mediuint
+			int
+			bigint
+		浮点型/定点型
+			Float(M,D) decimal(M,D)
+			M叫"精度"-->代表"总位数",而D是"标度"代表小数位
+			float的精度有时会有损失
+			如果像银行和账户建议用decimal
+		create table class01(
+			sname varchar(20) not null default '',
+			age tinyint not null default 0,
+			snum tinyint(5) zerofill not null default 0)engine myisam charset utf8;
+			#建表时不加说明，表示有符号数，想表示无符号数声明unsigned
+		
+	字符型
+		char,varchar,text,blob
+		char和varchar分别是定长和变长类型
+		char(N),不够N个长度,在字符尾部补空格
+		varchar(100),也是存储100个长度，对于vachar型但列内容前有一到两个字节来
+		标识该列的内容长度
+		#注意char(M),varchar(M)中的M限制的是字符不是字节
+
+	日期类型
+		date(mysql中有一个问题:date的默认值不能设为0000-00-00可以在select @@sql_mode查看到
+		NO_ZERO_IN_DATE,NO_ZERO_DATE这两个属性, 使用SET GLOBAL sql_mode='其他的属性', 
+		去掉这两个属性即可)
+		date "0000-00-00"
+		time "00:00:00"
+		datetime "0000-00-00 00:00:00"
+
+#建表create
+	在开发中,会员的信息优化往往是,使用频率高的表,优先考虑效率,存储到一张表中,不常用的信息和
+	比较占据空间的信息,优先考虑空间占用,储存于辅表中

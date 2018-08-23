@@ -1,0 +1,6 @@
+# 这个装饰器会打印运行的函数名
+def log(func):
+    def wrapper(*args, **kw):
+        print('call %s():' % func.__name__)
+        return func(*args, **kw)
+    return wrapper
