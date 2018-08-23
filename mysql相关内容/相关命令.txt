@@ -87,6 +87,37 @@ truncate 和 delete的区别在于 truncate相当于删除表后再创建一个�
 		time "00:00:00"
 		datetime "0000-00-00 00:00:00"
 
-#建表create
-	在开发中,会员的信息优化往往是,使用频率高的表,优先考虑效率,存储到一张表中,不常用的信息和
-	比较占据空间的信息,优先考虑空间占用,储存于辅表中
+	#建表create
+		在开发中,会员的信息优化往往是,使用频率高的表,优先考虑效率,存储到一张表中,不常用的信息和
+		比较占据空间的信息,优先考虑空间占用,储存于辅表中
+		create table 表名(
+			列1声明 列类型 列1参数,
+			列2声明 列类型 列2参数,
+				···
+		）engine myisam/innodb/bdb charset utf8/gbk/latin1
+		
+		create table member(
+			id int unsigned auto_increment primary key,
+			username char(20) not null default '',
+			gender char(1) not null default '',
+			weight tinyint unsigned not null default 0,
+			birth date not null default '0000-00-00',
+			salary decimal(8, 2) not null default 0,
+			lastlogin int unsigned not null default 0
+		)engine myisam charset utf8;
+		
+		#增加列
+		alter table 表名 add 列名称 列类型 列参数[加的列在表的最后]
+		
+		alter table 表名 add 列名称 列类型 列参数 after 列名[把新列加在指定列后]
+		
+		alter table 表名 add 列名称 列类型 列参数 first [把新列加在最前面]
+		
+		#删除列
+		alter table 表名 drop 列名 
+		
+		#修改列
+		alter table 表名 modify 列名称 列类型 列参数[修改列, Modify不能修改列名]
+			#修改列名称
+			alter table 表名 change 旧列名 新列名 列类型 列参数
+		
