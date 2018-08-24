@@ -120,4 +120,55 @@ truncate 和 delete的区别在于 truncate相当于删除表后再创建一个�
 		alter table 表名 modify 列名称 列类型 列参数[修改列, Modify不能修改列名]
 			#修改列名称
 			alter table 表名 change 旧列名 新列名 列类型 列参数
-		
+	
+	
+#查询！！！
+	1.基础where的查询:
+		1.1查询主键为32的商品(goods_id,goods_name,shop_price)
+			select goods_id,goods_name,shop_price from goods where goods_id = 32;
+			
+		1.2查询不属于第3个栏目的所有商品
+			select goods_id,cat_id,goods_name from goods where cats_id != 3;
+			
+		1.3本店价格大于3000的商品
+			select goods_id,cat_id,goods_name,price from goods where price > 3000;
+			
+		1.4本店价格低于或等于100元的商品
+			select goods_id,cat_id,goods_name,shop_price from goods where shop_price <= 100;
+			
+		1.5取出第4栏目和第19栏目的商品(不许用or)
+			select goods_id,cat_id,goods_name,shop_price  from goods where cat_id in (4, 19);
+			
+		1.6取出100<=本店价格<=500的商品(不许用and)
+			select goods_id,cat_id,goods_name,shop_price  from goods where shop_price between 100 and 500;
+			
+	
+		1.7取出不在第3栏目和不在第11栏目的商品(and,或者not in分别实现)
+			select goods_id,cat_id,goods_name,shop_price  from goods where cat_id not in (3, 11);
+			select goods_id,cat_id,goods_name,shop_price  from goods where cat_id != 3 and cat_id != 11;
+			
+		1.8取出价格大于100且小于300，或者大于1000且小于3500的商品
+			select goods_id,cat_id,goods_name,shop_price  from goods where
+			shop_price < 300 and shop_price > 100 or shop_price < 3500 and  shop_price > 1000;
+			
+		1.9取出第3个栏目下面价格<1000或>3000,并且点击量>5的商品
+			select goods_id,cat_id,goods_name,shop_price,click_count  from goods where
+			cat_id = 3 and (shop_price < 1000 or shop_price > 3000) and click_count > 5;
+			
+		1.10取出第1个栏目下面的商品(注意:1栏目下面没有商品,但子栏目下面有)
+			
+		1.11取出名字以"诺基亚"开头的商品
+			 select goods_id,goods_name from goods
+			 where goods_name like '诺基亚%';
+			 
+		1.12取出名字为"诺基亚xx"的手机
+			select goods_id,goods_name from goods
+			where goods_name like '诺基亚__';
+			
+		1.13取出名字不以"诺基亚"开头的商品
+			select goods_id,goods_name from goods
+			where goods_name not like '诺基亚%';
+			
+		1.14取出第3个栏目下面价格在1000到3000之间,并且点击量>5"诺基亚"开头的商品
+			select goods_id,goods_name,cat_id, shop_price, click_count from goods
+			where cat_id = 3 and (shop_price between 1000 and 3000) and click_count > 5 and goods_name like '诺基亚%';
