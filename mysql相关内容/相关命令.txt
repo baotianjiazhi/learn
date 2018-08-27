@@ -172,3 +172,102 @@ truncate 和 delete的区别在于 truncate相当于删除表后再创建一个�
 		1.14取出第3个栏目下面价格在1000到3000之间,并且点击量>5"诺基亚"开头的商品
 			select goods_id,goods_name,cat_id, shop_price, click_count from goods
 			where cat_id = 3 and (shop_price between 1000 and 3000) and click_count > 5 and goods_name like '诺基亚%';
+		
+		#列就是变量,在每一行上,列的值都在变化
+		where 条件是表达式,在哪一行上表达式为真,哪一行就取出来
+		比如下面的条件,shop_price在不同的行,有不同的值
+		在哪一行时,shop_price>5000如果为真就取出该行
+		
+			有一道面试题如下:
+				把num值处于[20, 29]之间的改为20,
+				把num值处于[30, 39]之间的改为30
+				num
+				3
+				12
+				15
+				23
+				25
+				29
+				34
+				36
+				42
+				44
+				48
+				54
+				#update mian set num = (num/10)*10 where num between 20 and 40;
+			把goods表中商品为"诺基亚xxx"的商品改为"HTCxxx",提示:substring(),concat()
+		
+	2.分组查询
+		2.1查出最贵的商品价格
+			select max(shop_price) from goods;
+			
+		2.2查出最大(最新)的商品编号
+			select max(goods_id) from goods;
+			
+		2.3查出最便宜的商品的价格
+			select min(shop_price) from goods;
+			
+		2.4查出最旧(最小)的商品编号
+			select min(goods_id) from goods; 
+			
+		2.5查询该店所有商品的库存总量
+			select sum(goods_number) from goods;
+		
+		2.6查询所有商品的平均价格
+			select avg(shop_price) from goods;
+			
+		2.7查询该店一共有多少种商品
+			select count(*) from goods;
+		
+		#select count(*) from 表名 查询绝对的行数,哪怕某一行所有字段全部为Null也计算在内
+		而select count(列名) from 表名 查询的是该列不为null的所有行数
+		在myisam引擎中两种没有区别,但是在innodb的表中,count(*)直接读取行数,执行效率极低
+		
+		#group by
+			严格讲以group by a,b,c为列,则select的列只能在a,b,c中选择才没有语义上的矛盾
+			
+		2.8查询每个栏目下面
+		最贵商品的价格
+		最低商品的价格
+		商品的平均价格
+		商品的库存量
+		商品的种类
+		提示:(5个聚合函数,sum,avg,max,min,count与group的综合应用)
+		select cat_id,max(shop_price) from goods group by cat_id;
+		select cat_id,min(shop_price) from goods group by cat_id;
+		select cat_id,avg(shop_price) from goods group by cat_id;
+		select cat_id,sum(goods_number) from goods group by cat_id;
+		select cat_id,count(*) from goods group by cat_id;
+		
+		
+		#having 想通过自建列查询
+	3.having和group综合运用查询：
+	3.1查询该店的商品比市场价所节省的价格
+		select goods_id,shop_price,goods_number,shop_price*goods_number as hk from goods;
+		
+	3.2查询每个商品所积压的货款(提示:库存*单价)
+		select sum(goods_number*shop_price) from goods group by goods_id;
+		
+	3.3查询该店积压的总货款
+		select sum(goods_number*shop_price) from goods
+		
+	3.4查询该店每个栏目下积压的总货款
+		select sum(goods_number*shop_price) from goods group by cat_id;
+		
+	3.5查询比市场价省钱200元以上的商品及该商品所省的钱(where和having分别实现)
+		select goods_id,shop_price,(market_price-shop_price) as dis from goods having dis > 200;
+		
+	3.6查询积压货款超过1w元的栏目,以及该栏目积压的货款
+		select sum(shop_price*goods_number) as hk from goods group by cat_id having hk > 10000;
+		
+	3.7:where-having-group综合练习题
+	有如下表及数据
+	name subject score
+	张三 数学	 90
+	张三 语文    50
+	张三 地理    40
+	李四 语文    55
+	李四 政治    45
+	王五 政治    30
+	要求:查询出2门以及2门以上不及格者的平均成绩
+	select name,avg(score),sum(score-60<0) as rr from result group by name having rr >= 2;
