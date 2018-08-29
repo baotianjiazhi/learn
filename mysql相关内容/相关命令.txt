@@ -271,3 +271,26 @@ truncate 和 delete的区别在于 truncate相当于删除表后再创建一个�
 	王五 政治    30
 	要求:查询出2门以及2门以上不及格者的平均成绩
 	select name,avg(score),sum(score-60<0) as rr from result group by name having rr >= 2;
+	问题解析:
+		1.首先算出所有人的平均成绩 select name,avg(score) from result group by name;
+		2.再计算所有人是否挂科 select name,subject,score,score < 60 as rr from result;
+		3.将两者综合起来 select name,avg(score),sum(score<60) as rr from result group by name having rr >= 2;
+	
+	#order by
+		order by要放在where/group/having的后面,即对最后的结果集进行排序,顺序不能乱
+		排序的语法:
+			order by 结果集中的列名 des/asc
+			
+			例:order by shop_price desc 按价格降序排列
+			order by add_time asc 按添加时间升序排列
+			
+			先按cat_id排序,再按shop_price排序
+			select goods_id,cat_id,goods_name,shop_price
+			from goods
+			order by cat_id asc,shop_price desc;
+	#limit
+		limit放在所有语句的最后
+		Limit [offset],N
+		offset:偏移量---通俗的说就是跳过几行
+		N:取出条目的数量
+		
