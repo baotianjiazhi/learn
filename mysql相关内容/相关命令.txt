@@ -293,4 +293,18 @@ truncate 和 delete的区别在于 truncate相当于删除表后再创建一个�
 		Limit [offset],N
 		offset:偏移量---通俗的说就是跳过几行
 		N:取出条目的数量
-		
+	
+	
+	#子查询
+		查询网店最新的(goods_id最大的)一条商品
+			select goods_id from goods order by goods_id desc limit 1;
+		查询网店最新的(goods_id最大的)一条商品(不用排序)
+			select * from goods where goods_id = (select max(goods_id) from goods limit 1);
+		#where型子查询:指把内层查询的结果作为外层查询的比较结果.
+			典型题:查询最大商品,最贵商品
+			如果 where 列=(内容sql),则内层sql返回必是单行单列,单个值
+			如果 where 列 in (内层sql),则内层sql只返回单列,可多行
+		#from
+			查询每个栏目下goods_id最大的商品
+			select max(goods_id),cat_id from (select goods_id,cat_id,goods_name from goods 
+			order by cat_id asc,goods_id desc) as tmp  group by cat_id;
