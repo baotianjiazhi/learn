@@ -241,7 +241,9 @@ truncate 和 delete的区别在于 truncate相当于删除表后再创建一个�
 		
 		
 		#having 想通过自建列查询
+		
 	3.having和group综合运用查询：
+	
 	3.1查询该店的商品比市场价所节省的价格
 		select goods_id,shop_price,goods_number,shop_price*goods_number as hk from goods;
 		
@@ -308,3 +310,13 @@ truncate 和 delete的区别在于 truncate相当于删除表后再创建一个�
 			查询每个栏目下goods_id最大的商品
 			select max(goods_id),cat_id from (select goods_id,cat_id,goods_name from goods 
 			order by cat_id asc,goods_id desc) as tmp  group by cat_id;
+		#exists
+			指把外层的sql结果拿到内层sql去测试
+			如果内层sql成立,则该行取出
+			查出有商品的栏目
+			select cat_id,cat_name from category
+			where exists(select * from goods where goods.cat_id = category.cat_id)
+
+	tips:为什么建表时加 not null default 0/default ''?
+		答:不想让表中出现null值,与NULL做判断时应该用'is'或者'is not'而不是 '=',
+		碰到运算符,一律返回Null,效率不高,因此建表时往往定义not null.
