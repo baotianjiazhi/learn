@@ -462,3 +462,40 @@ truncate 和 delete的区别在于 truncate相当于删除表后再创建一个�
 			select id,sum(num) 
 			from (select * from a union all select * from b) as tmp 
 			group by id;
+	#相关函数的介绍
+		#数学运算函数
+			连接字符串
+			concat()
+			查询ASCII码
+			ascii('a')
+			计算字节长度
+			length()
+			计算字符长度
+			char_length()
+			翻转字符串
+			reverse()
+			查找字串的位置
+			position('' in '')
+		#时间函数
+			取当前时间
+			now() datetime格式
+			取当前日期
+			curdate() 
+			查询某日是一星期的第几天
+			dayofweek(date)
+			查询某个日期是第几周
+			week(date)
+			加密
+			md5()
+		#控制流程函数
+			按0为女,1为男查询出各人的性别
+			select sname,
+			case gender
+			when 1
+			then '男'
+			when 0
+			then '女'
+			else '春'
+			end as xingbie
+			from test14;
+		
