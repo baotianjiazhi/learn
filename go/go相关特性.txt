@@ -1,0 +1,106 @@
+#golang语言特性
+	1.垃圾回收
+		a. 内存自动回收，再也不需要开发人员管理内存
+		b. 开发人员专注业务实现，降低负担
+		c. 只需要new分配内存，不需要释放
+	2.天然并发
+		a. 从语言层面支持并发
+		b. goroute，轻量级线程
+		c. 基于CSP（Communicating Sequential Process）模型实现
+	3.channel
+		a. 管道，类似unix/linux中的pipe
+		b. 多个goroute之间通过channel通信
+		c. 支持任何类型
+	4.多返回值
+		func calc(a int, b int)(int, int){
+			sum := a + b
+			avg := (a + b) / 2
+				return sum, a
+			}(只接收一个返回值时，其他返回值用_代替)
+	
+	
+	#包的概念（想被外部引用的函数名一定要大写）
+		1.跟python一样，把相同功能的代码放到一个目录里，称之为包
+		
+		2.包可以被其他包引用
+		
+		3.main包是用来生成可执行文件，每个程序只有一个main包
+		
+		4.包的主要用途是提高代码的可复用性
+	
+	#常量
+		1.常量使用const修饰，代表永远是只读，不能修改。
+		
+		2.常量只能修饰boolen，number（int相关类型等）和string
+		
+		3.语法：const identifier 【type】 = value，其中type可以省略
+	
+	#值类型和引用类型
+		1.值类型：基本数据类型int、float、bool、string以及数组和结构体，内存在栈中分配
+		
+		2.引用类型：指针、slice、channel等，内存在堆中分配
+	
+	# strings和strconv使用
+	
+	# 时间格式化(2006/01/02 15:04:05)
+	
+	# 指针类型
+		1. 普通类型，变量存的就是值，也叫值类型
+		
+		2. 获取变量的地址，用&，比如：var a int，获取a的地址：&a
+		
+		3. 指针类型，变量村的是一个地址，这个地址指向一个值
+		
+		4. 获取指针类型的值，用*
+	
+	#函数
+		1.不支持重载，一个包不能有两个名字一样的函数
+		
+		2.函数也是一种类型，一个函数可以赋值给变量
+		
+		3.匿名函数
+		
+		4.多返回值
+		
+	#struct（结构体，go中没有类的概念）
+		struct定义的三种形式：
+			a. var stu Student
+			b. var stu *Student = new(Student)
+			c. var stu = &Student{}
+			
+		工厂模式（struct没有构造函数，一般可以使用工厂模式来解决）
+			package model
+			type student struct {
+				Name string
+				Age int
+			}
+			
+			func NewStudent(name string, age int) *student{
+				return &student{
+						Name: name,
+						Age: age
+					}
+			}
+			
+			
+			package main
+			S := new(student)
+			S := model.NewStudent("tony", 20)
+		
+		结构体方法：
+			定义：func (recevier type) methodName (参数列表)(返回值列表){}
+			
+	
+		
+	
+#tips：
+	因为go是编译性质的语言的不能写出类似如下的代码格式：
+		var a string
+		var b int
+		a = "hello world"
+		b = 1
+	而要写成:
+		var a string = "hello world"
+		var b int = 1
+	或者把赋值的过程封装在函数内
+	
