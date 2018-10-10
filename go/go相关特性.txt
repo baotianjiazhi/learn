@@ -90,7 +90,15 @@
 		结构体方法：
 			定义：func (recevier type) methodName (参数列表)(返回值列表){}
 			
-	
+			接口：type data interface{}
+				
+			空接口，interface{}
+				空接口没有任何方法，所以所有类型都实现了接口，也就是说所有类型都可以转换为空接口
+					
+					var a int
+					var b interface{}
+					b = a
+			
 		
 	
 #tips：
