@@ -1,5 +1,5 @@
 import unittest
-from article_vote import *
+from .article_vote import *
 
 
 class TestCh01(unittest.TestCase):
