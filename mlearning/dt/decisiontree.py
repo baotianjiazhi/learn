@@ -1,7 +1,7 @@
 from math import log
 import operator
 
-from mlearning.dt import treePlotter
+from learn.mlearning.dt import treePlotter
 
 
 def createDataSet():
